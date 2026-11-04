@@ -15,7 +15,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        
+
         special = new Product(
             "PROD-0000",
             "Baklava",
@@ -49,6 +49,7 @@ public partial class MainWindow : Window
 
     private void OnClick_ExportButton(object? sender, RoutedEventArgs e)
     {
+        special.ExportJson();
         Console.WriteLine("Export button clicked!");
     }
 }
