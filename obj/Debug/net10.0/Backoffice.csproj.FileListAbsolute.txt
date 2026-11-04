@@ -89,3 +89,4 @@
 /Users/okkeserdem/Documents/ETML/I321/Backoffice/obj/Debug/net10.0/Backoffice.pdb
 /Users/okkeserdem/Documents/ETML/I321/Backoffice/obj/Debug/net10.0/Backoffice.genruntimeconfig.cache
 /Users/okkeserdem/Documents/ETML/I321/Backoffice/obj/Debug/net10.0/ref/Backoffice.dll
+/Users/okkeserdem/Documents/ETML/I321/Backoffice/obj/Debug/net10.0/Backoffice.sourcelink.json
