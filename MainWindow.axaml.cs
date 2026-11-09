@@ -37,7 +37,7 @@ public partial class MainWindow : Window
     private void AfficherBusiness()
     {
         BusinessNameText.Text = business.Name;
-        BusinessIdText.Text = $"Nom commerce : {business.Id}";
+        BusinessIdText.Text = $"ID commerce : {business.Id}";
 
         ProductNameText.Text = business.Special.Name;
         ProductPriceText.Text = $"Prix : {business.Special.Price:0.00} CHF";
