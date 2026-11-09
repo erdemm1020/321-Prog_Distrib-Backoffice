@@ -25,10 +25,18 @@ public class Business
     {
         Directory.CreateDirectory(JsonSer.dataFolder);
 
-        string path = Path.Combine(JsonSer.dataFolder, "business.json");
+        string path = Path.Combine(JsonSer.dataFolder, $"{Id}.json");
         File.WriteAllText(path, JsonSerializer.Serialize(this, JsonSer.JsonOptions));
 
         Console.WriteLine($"Exporté : {path}");
+    }
+    public static Business? LoadData(string id)
+    {
+        string path = Path.Combine(JsonSer.dataFolder, $"{id}.json");
+        if (!File.Exists(path)) return null;
+
+        string json = File.ReadAllText(path);
+        return JsonSerializer.Deserialize<Business>(json, JsonSer.JsonOptions);
     }
 
 }
