@@ -52,11 +52,19 @@
         <TextBlock x:Name="ProductNameText" Foreground="Black" />
         <TextBlock x:Name="ProductPriceText" Foreground="Black" />
     </StackPanel>
+    
+    <StackPanel HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Spacing="4">
 
-    <Button Content="Exporter JSON"
-            Click="OnClick_ExportButton"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom" />
+        <TextBlock x:Name="UnixTimeStamp"
+               Foreground="Black"
+               HorizontalAlignment="Right" />
+
+        <Button Content="Exporter JSON"
+            Click="OnClick_ExportButton" />
+
+    </StackPanel>
 </Grid>
 
 </Window>
