@@ -4,6 +4,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 
+
 namespace Backoffice;
 
 public class Product
@@ -13,15 +14,6 @@ public class Product
     public string Picture { get; set; }
     public float Price { get; set; }
 
-    private static string _dataFolder = Path.Combine(AppContext.BaseDirectory, "Data");
-
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        // indente le josn sur plusieurs lignes pour qu'il soit lisible
-        WriteIndented = true,
-        // encode correctment avec les accents
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-    };
 
     public Product(string id, string name, string picture, float price)
     {
@@ -33,10 +25,10 @@ public class Product
 
     public void ExportJson()
     {
-        Directory.CreateDirectory(_dataFolder);
+        Directory.CreateDirectory(JsonSer._dataFolder);
 
-        string path = Path.Combine(_dataFolder, "product.json");
-        File.WriteAllText(path, JsonSerializer.Serialize(this, JsonOptions));
+        string path = Path.Combine(JsonSer._dataFolder, "product.json");
+        File.WriteAllText(path, JsonSerializer.Serialize(this, JsonSer.JsonOptions));
 
         Console.WriteLine($"Exporté : {path}");
     }

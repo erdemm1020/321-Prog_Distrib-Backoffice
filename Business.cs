@@ -1,4 +1,8 @@
 using System;
+using System.IO;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Backoffice;
 
@@ -15,6 +19,16 @@ public class Business
         Name = name;
         Logo = logo;
         Special = special;
+    }
+
+    public void ExportJson()
+    {
+        Directory.CreateDirectory(JsonSer._dataFolder);
+
+        string path = Path.Combine(JsonSer._dataFolder, "business.json");
+        File.WriteAllText(path, JsonSerializer.Serialize(this, JsonSer.JsonOptions));
+
+        Console.WriteLine($"Exporté : {path}");
     }
 
 }
