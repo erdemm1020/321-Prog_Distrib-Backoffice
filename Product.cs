@@ -27,7 +27,7 @@ public class Product
     {
         Directory.CreateDirectory(JsonSer.dataFolder);
 
-        string path = Path.Combine(JsonSer.dataFolder, "product.json");
+        string path = Path.Combine(JsonSer.dataFolder, $"{Id}.json");
         File.WriteAllText(path, JsonSerializer.Serialize(this, JsonSer.JsonOptions));
 
         Console.WriteLine($"Exporté : {path}");
