@@ -23,9 +23,9 @@ public class Business
 
     public void ExportJson()
     {
-        Directory.CreateDirectory(JsonSer._dataFolder);
+        Directory.CreateDirectory(JsonSer.dataFolder);
 
-        string path = Path.Combine(JsonSer._dataFolder, "business.json");
+        string path = Path.Combine(JsonSer.dataFolder, "business.json");
         File.WriteAllText(path, JsonSerializer.Serialize(this, JsonSer.JsonOptions));
 
         Console.WriteLine($"Exporté : {path}");

@@ -8,7 +8,7 @@ namespace Backoffice;
 
 public class JsonSer
 {
-    public static string _dataFolder = Path.Combine(AppContext.BaseDirectory, "Data");
+    public static string dataFolder = Path.Combine(AppContext.BaseDirectory, "Data");
 
     public static readonly JsonSerializerOptions JsonOptions = new()
     {
