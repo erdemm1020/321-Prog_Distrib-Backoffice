@@ -57,6 +57,10 @@
             VerticalAlignment="Bottom"
             Spacing="4">
 
+        <TextBlock x:Name="OpenStatus"
+               FontWeight="Bold"
+               HorizontalAlignment="Right" />
+
         <TextBlock x:Name="UnixTimeStamp"
                Foreground="Black"
                HorizontalAlignment="Right" />

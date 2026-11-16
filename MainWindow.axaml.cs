@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 
@@ -55,7 +56,11 @@ public partial class MainWindow : Window
 
             mqtt.TimeReceived += time =>
             {
-                Dispatcher.UIThread.Post(() => UnixTimeStamp.Text = time.ToString());
+                Dispatcher.UIThread.Post(() =>
+                {
+                    UnixTimeStamp.Text = time.ToString();
+                    AfficherOuverture(time);
+                });
             };
 
             await mqtt.StartAsync();
@@ -73,6 +78,19 @@ public partial class MainWindow : Window
     }
 
 
+    private void AfficherOuverture(Time? time)
+    {
+        if (time == null)
+        {
+            OpenStatus.Text = "";
+            return;
+        }
+
+        bool ouvert = Horaires.EstOuvert(time.LocalTime);
+        OpenStatus.Text = ouvert ? "Ouvert" : "Fermé";
+        OpenStatus.Foreground = ouvert ? Brushes.Green : Brushes.Red;
+    }
+
     private void AfficherBusiness()
     {
         BusinessNameText.Text = business?.Name;
@@ -81,7 +99,9 @@ public partial class MainWindow : Window
         ProductNameText.Text = business?.Special.Name;
         ProductPriceText.Text = $"Prix : {business?.Special.Price:0.00} CHF";
 
-        UnixTimeStamp.Text = Time.LoadTime()?.ToString() ?? "Aucune date";
+        Time? savedTime = Time.LoadTime();
+        UnixTimeStamp.Text = savedTime?.ToString() ?? "Aucune date";
+        AfficherOuverture(savedTime);
 
         // Base64 -> image
         string picture = business?.Special.Picture ?? "";

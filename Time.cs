@@ -31,6 +31,9 @@ public class Time
         File.WriteAllText(path, json);
     }
 
+    public DateTime LocalTime =>
+        DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp).LocalDateTime;
+
     public override string ToString() =>
         DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp).ToString("dd/MM/yyyy HH:mm:ss");
 }
