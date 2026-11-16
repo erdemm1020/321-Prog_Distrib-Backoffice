@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
@@ -16,5 +16,13 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MQTTnet" Version="5.2.0.1603" />
+    <None Update="contrats\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Backoffice.Tests\**" />
+    <EmbeddedResource Remove="Backoffice.Tests\**" />
+    <None Remove="Backoffice.Tests\**" />
+    <AvaloniaXaml Remove="Backoffice.Tests\**" />
   </ItemGroup>
 </Project>
