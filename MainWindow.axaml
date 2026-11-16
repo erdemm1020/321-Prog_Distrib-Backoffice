@@ -53,6 +53,18 @@
         <TextBlock x:Name="ProductPriceText" Foreground="Black" />
     </StackPanel>
     
+    <StackPanel x:Name="ScheduleList"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Spacing="2">
+
+        <TextBlock Text="Horaires"
+               FontWeight="Bold"
+               Foreground="#000080"
+               Margin="0,0,0,4" />
+
+    </StackPanel>
+
     <StackPanel HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Spacing="4">

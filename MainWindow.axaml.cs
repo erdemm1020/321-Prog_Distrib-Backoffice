@@ -15,10 +15,12 @@ public partial class MainWindow : Window
     Business? business;
     Product special;
     MqttService? mqtt;
+    readonly TextBlock[] dayLabels = new TextBlock[7];
 
     public MainWindow()
     {
         InitializeComponent();
+        CreerHoraires();
 
         // special = new Product(
         //     "PROD-0000",
@@ -78,8 +80,27 @@ public partial class MainWindow : Window
     }
 
 
+    private void CreerHoraires()
+    {
+        for (int i = 0; i < Horaires.Jours.Length; i++)
+        {
+            dayLabels[i] = new TextBlock
+            {
+                Text = $"{Horaires.Jours[i]} : {Horaires.Texte}",
+                Foreground = Brushes.Black
+            };
+            ScheduleList.Children.Add(dayLabels[i]);
+        }
+    }
+
     private void AfficherOuverture(Time? time)
     {
+        int today = time == null ? -1 : Horaires.IndexJour(time.LocalTime);
+        for (int i = 0; i < dayLabels.Length; i++)
+        {
+            dayLabels[i].FontWeight = i == today ? FontWeight.Bold : FontWeight.Normal;
+        }
+
         if (time == null)
         {
             OpenStatus.Text = "";
