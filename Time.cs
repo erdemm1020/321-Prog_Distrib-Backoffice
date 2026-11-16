@@ -22,8 +22,15 @@ public class Time
         return JsonSerializer.Deserialize<Time>(json, JsonSer.JsonOptions);
     }
 
+    public void Save()
+    {
+        Directory.CreateDirectory(JsonSer.dataFolder);
+        string path = Path.Combine(JsonSer.dataFolder, "time.json");
+
+        string json = JsonSerializer.Serialize(this, JsonSer.JsonOptions);
+        File.WriteAllText(path, json);
+    }
+
     public override string ToString() =>
-        DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp)
-                      .ToLocalTime()
-                      .ToString("dd/MM/yyyy HH:mm:ss");
+        DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp).ToString("dd/MM/yyyy HH:mm:ss");
 }
