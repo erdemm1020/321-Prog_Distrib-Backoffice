@@ -1,5 +1,4 @@
 using System;
-using System.Text.Json;
 using System.Threading.Tasks;
 using MQTTnet;
 
@@ -43,24 +42,14 @@ public class MqttService : IAsyncDisposable
         string json = e.ApplicationMessage.ConvertPayloadToString();
         Console.WriteLine($"[MQTT] Reçu sur {e.ApplicationMessage.Topic} : {json}");
 
-        try
+        if (!Contracts.TryReadTime(json, out Time? time, out string error))
         {
-            Time? time = JsonSerializer.Deserialize<Time>(json, JsonSer.JsonOptions);
-
-            if (time == null)
-            {
-                Console.WriteLine("[MQTT] JSON vide, ignoré.");
-                return Task.CompletedTask;
-            }
-
-            time.Save();
-
-            TimeReceived?.Invoke(time);
+            Console.WriteLine($"[MQTT] Message ignoré : {error}");
+            return Task.CompletedTask;
         }
-        catch (JsonException ex)
-        {
-            Console.WriteLine($"[MQTT] JSON invalide : {ex.Message}");
-        }
+
+        time!.Save();
+        TimeReceived?.Invoke(time);
 
         return Task.CompletedTask;
     }

@@ -51,7 +51,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            mqtt = new MqttService("blue.section-inf.ch", 1883, "umddcmid3b/timebackup");
+            mqtt = new MqttService("blue.section-inf.ch", 1883, "umddcmid3b/time");
 
             mqtt.TimeReceived += time =>
             {
