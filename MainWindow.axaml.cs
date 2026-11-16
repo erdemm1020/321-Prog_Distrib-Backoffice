@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 
 namespace Backoffice;
 
@@ -11,6 +13,7 @@ public partial class MainWindow : Window
 
     Business? business;
     Product special;
+    MqttService? mqtt;
 
     public MainWindow()
     {
@@ -40,6 +43,33 @@ public partial class MainWindow : Window
         {
             Console.WriteLine("Aucun business trouvé.");
         }
+
+        _ = InitMqttAsync();
+    }
+
+    private async Task InitMqttAsync()
+    {
+        try
+        {
+            mqtt = new MqttService("blue.section-inf.ch", 1883, "umddcmid3b/timebackup");
+
+            mqtt.TimeReceived += time =>
+            {
+                Dispatcher.UIThread.Post(() => UnixTimeStamp.Text = time.ToString());
+            };
+
+            await mqtt.StartAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"MQTT erreur : {ex.Message}");
+        }
+    }
+
+    protected override async void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        if (mqtt != null) await mqtt.DisposeAsync();
     }
 
 
