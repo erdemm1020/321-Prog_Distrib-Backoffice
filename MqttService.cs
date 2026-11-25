@@ -33,6 +33,10 @@ public class MqttService : IAsyncDisposable
         await _client.ConnectAsync(options);
         Console.WriteLine($"[MQTT] Connecté à {_host}:{_port}");
 
+        // logs d'abord, pour ne rien rater
+        await _client.SubscribeAsync(Logs.Topic);
+        Console.WriteLine($"[MQTT] Abonné au topic {Logs.Topic}");
+
         await _client.SubscribeAsync(_topic);
         Console.WriteLine($"[MQTT] Abonné au topic {_topic}");
     }
@@ -41,6 +45,13 @@ public class MqttService : IAsyncDisposable
     {
         string json = e.ApplicationMessage.ConvertPayloadToString();
         Console.WriteLine($"[MQTT] Reçu sur {e.ApplicationMessage.Topic} : {json}");
+
+        // un log n'est pas une heure : on l'enregistre et c'est tout
+        if (e.ApplicationMessage.Topic == Logs.Topic)
+        {
+            Logs.Save(json, "recus.log");
+            return Task.CompletedTask;
+        }
 
         if (!Contracts.TryReadTime(json, out Time? time, out string error))
         {
@@ -52,6 +63,20 @@ public class MqttService : IAsyncDisposable
         TimeReceived?.Invoke(time);
 
         return Task.CompletedTask;
+    }
+
+    // retourne true si le message est parti
+    public async Task<bool> PublishAsync(string topic, string payload)
+    {
+        if (!_client.IsConnected) return false;
+
+        var message = new MqttApplicationMessageBuilder()
+            .WithTopic(topic)
+            .WithPayload(payload)
+            .Build();
+
+        var resultat = await _client.PublishAsync(message);
+        return resultat.IsSuccess;
     }
 
     public async ValueTask DisposeAsync()

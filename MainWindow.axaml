@@ -78,7 +78,13 @@
                HorizontalAlignment="Right" />
 
         <Button Content="Exporter JSON"
-            Click="OnClick_ExportButton" />
+            Click="OnClick_ExportButton"
+            HorizontalAlignment="Right" />
+
+        <TextBlock x:Name="LogStatus"
+               Foreground="Black"
+               FontSize="10"
+               HorizontalAlignment="Right" />
 
     </StackPanel>
 </Grid>

@@ -15,6 +15,7 @@ public partial class MainWindow : Window
     Business? business;
     Product special;
     MqttService? mqtt;
+    bool? dernierOuvert;
     readonly TextBlock[] dayLabels = new TextBlock[7];
 
     public MainWindow()
@@ -54,7 +55,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            mqtt = new MqttService("blue.section-inf.ch", 1883, "umddcmid3b/time");
+            mqtt = new MqttService("mqtt.blue.section-inf.ch", 1883, "umddcmid3b/timebackup");
 
             mqtt.TimeReceived += time =>
             {
@@ -110,6 +111,30 @@ public partial class MainWindow : Window
         bool ouvert = Horaires.EstOuvert(time.LocalTime);
         OpenStatus.Text = ouvert ? "Ouvert" : "Fermé";
         OpenStatus.Foreground = ouvert ? Brushes.Green : Brushes.Red;
+
+        // log seulement quand l'état change (ouverture ou fermeture)
+        if (dernierOuvert != null && dernierOuvert != ouvert)
+            _ = EnvoyerLogAsync(time.UnixTimeStamp, $"{business?.Name} is {(ouvert ? "open" : "closed")}");
+        dernierOuvert = ouvert;
+    }
+
+    private async Task EnvoyerLogAsync(long unixTimeStamp, string message)
+    {
+        string ligne = Logs.Format(unixTimeStamp, "info", business?.Id, message);
+        Console.WriteLine(ligne);
+        Logs.Save(ligne);
+
+        bool envoye = false;
+        try
+        {
+            if (mqtt != null) envoye = await mqtt.PublishAsync(Logs.Topic, ligne);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"MQTT log erreur : {ex.Message}");
+        }
+
+        LogStatus.Text = $"{(envoye ? "Message envoyé" : "Message non envoyé")} : {ligne}";
     }
 
     private void AfficherBusiness()

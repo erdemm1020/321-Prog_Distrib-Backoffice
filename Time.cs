@@ -6,6 +6,9 @@ namespace Backoffice;
 
 public class Time
 {
+    // Fuseau utilisé partout (UTC+1). Pour changer : modifier ce chiffre.
+    public static readonly TimeSpan Fuseau = TimeSpan.FromHours(1);
+
     public long UnixTimeStamp { get; set; }
 
     public Time(long unixTimeStamp)
@@ -32,8 +35,8 @@ public class Time
     }
 
     public DateTime LocalTime =>
-        DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp).LocalDateTime;
+        DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp).ToOffset(Fuseau).DateTime;
 
     public override string ToString() =>
-        DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp).ToString("dd/MM/yyyy HH:mm:ss");
+        DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp).ToOffset(Fuseau).ToString("dd/MM/yyyy HH:mm:ss");
 }
