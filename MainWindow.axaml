@@ -2,70 +2,69 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="740"
         x:Class="Backoffice.MainWindow"
         Title="Backoffice"
-        Background="#D4D0C8"
-        FontFamily="Tahoma, Verdana, Arial"
+        Width="1100" Height="740" MinWidth="1060" MinHeight="720"
+        WindowDecorations="BorderOnly"
+        ExtendClientAreaToDecorationsHint="True"
         RequestedThemeVariant="Light">
 
-    <Window.Styles>
-        <Style Selector="Button">
-            <Setter Property="Foreground" Value="Black" />
-            <Setter Property="BorderThickness" Value="1,1,2,2" />
-            <Setter Property="CornerRadius" Value="0" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Width" Value="180" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-        </Style>
-        <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#D4D0C8" />
-            <Setter Property="BorderBrush" Value="#404040" />
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#E0DCD4" />
-            <Setter Property="BorderBrush" Value="#000080" />
-            <Setter Property="Foreground" Value="Black" />
-        </Style>
-        <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#BFBBB3" />
-            <Setter Property="BorderThickness" Value="2,2,1,1" />
-        </Style>
-        <Style Selector="Button:pressed">
-            <Setter Property="RenderTransform" Value="none" />
-        </Style>
-    </Window.Styles>
+    <!-- cadre bleu de la fenêtre -->
+    <Border BorderBrush="#0054E3" BorderThickness="3,0,3,3" Background="#ECE9D8">
+    <DockPanel>
+
+    <Border Classes="barreTitre" DockPanel.Dock="Top" Margin="-3,0"
+            PointerPressed="OnPointerPressed_Titre" DoubleTapped="OnDoubleTapped_Titre">
+        <DockPanel Margin="6,0">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
+                <Button Classes="titre" Click="OnClick_Reduire" ToolTip.Tip="Réduire">
+                    <Rectangle Width="8" Height="3" Fill="White" Margin="0,8,5,0" />
+                </Button>
+                <Button Classes="titre" Click="OnClick_Agrandir" ToolTip.Tip="Agrandir">
+                    <Border Width="12" Height="11" BorderBrush="White" BorderThickness="1,3,1,1" />
+                </Button>
+                <Button Classes="titre fermer" Click="OnClick_Fermer" ToolTip.Tip="Fermer">
+                    <Path Data="M0,0 L10,10 M10,0 L0,10" Stroke="White" StrokeThickness="2.5" />
+                </Button>
+            </StackPanel>
+
+            <!-- petite icône de programme -->
+            <Border Width="16" Height="16" Background="White" BorderBrush="#003C74" BorderThickness="1"
+                    VerticalAlignment="Center" DockPanel.Dock="Left">
+                <Border Height="4" Background="#2F6AE8" VerticalAlignment="Top" />
+            </Border>
+            <TextBlock Text="Backoffice" Foreground="White" FontWeight="Bold" FontSize="13"
+                       FontFamily="Trebuchet MS, Tahoma" Margin="6,0,0,0" VerticalAlignment="Center" />
+        </DockPanel>
+    </Border>
 
     <TabControl Margin="8">
     <TabItem Header="Boutique">
-    <Grid Margin="8">
+    <Grid Margin="12">
     <StackPanel Spacing="6" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Image x:Name="BusinessImage" Width="650" Height="250"
                Stretch="Fill" HorizontalAlignment="Left" />
-        <TextBlock x:Name="BusinessNameText" FontSize="20" FontWeight="Bold" Foreground="#000080" />
-        <TextBlock x:Name="BusinessIdText" Foreground="Black" />
+        <TextBlock x:Name="BusinessNameText" FontSize="20" FontWeight="Bold" Foreground="#0046D5"
+                   FontFamily="Trebuchet MS, Tahoma" />
+        <TextBlock x:Name="BusinessIdText" />
 
-        <TextBlock Text="Produit phare :" FontWeight="Bold" Foreground="Black" Margin="0,12,0,0" />
-        <Image x:Name="ProductImage" Width="150" Height="150"
-               Stretch="UniformToFill" HorizontalAlignment="Left" />
-        <TextBlock x:Name="ProductNameText" Foreground="Black" />
-        <TextBlock x:Name="ProductPriceText" Foreground="Black" />
+        <HeaderedContentControl Classes="groupe" Header="Produit phare" Width="250"
+                                HorizontalAlignment="Left" Margin="0,4,0,0">
+            <StackPanel Spacing="4">
+                <Border BorderBrush="#7F9DB9" BorderThickness="1" HorizontalAlignment="Left">
+                    <Image x:Name="ProductImage" Width="150" Height="150" Stretch="UniformToFill" />
+                </Border>
+                <TextBlock x:Name="ProductNameText" />
+                <TextBlock x:Name="ProductPriceText" />
+            </StackPanel>
+        </HeaderedContentControl>
     </StackPanel>
     
-    <StackPanel x:Name="ScheduleList"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Spacing="2">
-
-        <TextBlock Text="Horaires"
-               FontWeight="Bold"
-               Foreground="#000080"
-               Margin="0,0,0,4" />
-
-    </StackPanel>
+    <HeaderedContentControl Classes="groupe" Header="Horaires" Width="290"
+                            HorizontalAlignment="Right" VerticalAlignment="Top">
+        <StackPanel x:Name="ScheduleList" Spacing="3" />
+    </HeaderedContentControl>
 
     <StackPanel HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
@@ -76,14 +75,15 @@
                HorizontalAlignment="Right" />
 
         <TextBlock x:Name="UnixTimeStamp"
-               Foreground="Black"
+              
                HorizontalAlignment="Right" />
 
-        <Button Content="Exporter JSON"
+        <Button Classes="xp" Content="Exporter JSON"
             Click="OnClick_ExportButton"
             HorizontalAlignment="Right" />
 
         <TextBlock x:Name="LogStatus"
+              
                Foreground="Black"
                FontSize="10"
                HorizontalAlignment="Right" />
@@ -93,36 +93,44 @@
     </TabItem>
 
     <TabItem Header="Horaires">
-        <StackPanel Margin="8" Spacing="6" Width="300" HorizontalAlignment="Left">
-            <TextBlock Text="Horaires (tous les jours)" FontWeight="Bold" Foreground="#000080" />
+        <HeaderedContentControl Classes="groupe" Header="Horaires (tous les jours)" Margin="12" Width="320"
+                                HorizontalAlignment="Left" VerticalAlignment="Top">
+        <StackPanel Spacing="6">
 
-            <TextBlock Text="Ouverture" Foreground="Black" />
+            <TextBlock Text="Ouverture" />
             <TextBox x:Name="OuvertureBox" />
-            <TextBlock Text="Début de la pause" Foreground="Black" />
+            <TextBlock Text="Début de la pause" />
             <TextBox x:Name="PauseDebutBox" />
-            <TextBlock Text="Fin de la pause" Foreground="Black" />
+            <TextBlock Text="Fin de la pause" />
             <TextBox x:Name="PauseFinBox" />
-            <TextBlock Text="Fermeture" Foreground="Black" />
+            <TextBlock Text="Fermeture" />
             <TextBox x:Name="FermetureBox" />
 
-            <Button Content="Enregistrer" Click="OnClick_SaveHoraires" />
-            <TextBlock x:Name="HorairesStatus" Foreground="Black" TextWrapping="Wrap" />
+            <Button Classes="xp" Content="Enregistrer" Click="OnClick_SaveHoraires" HorizontalAlignment="Right" />
+            <TextBlock x:Name="HorairesStatus" TextWrapping="Wrap" />
         </StackPanel>
+        </HeaderedContentControl>
     </TabItem>
 
     <TabItem Header="Topics">
-        <StackPanel Margin="8" Spacing="6" Width="300" HorizontalAlignment="Left">
-            <TextBlock Text="Topics MQTT" FontWeight="Bold" Foreground="#000080" />
+        <HeaderedContentControl Classes="groupe" Header="Topics MQTT" Margin="12" Width="320"
+                                HorizontalAlignment="Left" VerticalAlignment="Top">
+        <StackPanel Spacing="6">
 
-            <TextBlock Text="Topic de l'heure" Foreground="Black" />
+            <TextBlock Text="Topic de l'heure" />
             <TextBox x:Name="TopicHeureBox" />
-            <TextBlock Text="Topic des logs" Foreground="Black" />
+            <TextBlock Text="Topic des logs" />
             <TextBox x:Name="TopicLogBox" />
 
-            <Button x:Name="TopicsButton" Content="Enregistrer" Click="OnClick_SaveTopics" />
-            <TextBlock x:Name="TopicsStatus" Foreground="Black" TextWrapping="Wrap" />
+            <Button x:Name="TopicsButton" Classes="xp" Content="Enregistrer" Click="OnClick_SaveTopics"
+                    HorizontalAlignment="Right" />
+            <TextBlock x:Name="TopicsStatus" TextWrapping="Wrap" />
         </StackPanel>
+        </HeaderedContentControl>
     </TabItem>
     </TabControl>
+
+    </DockPanel>
+    </Border>
 
 </Window>

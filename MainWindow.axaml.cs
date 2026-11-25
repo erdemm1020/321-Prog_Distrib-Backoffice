@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -242,6 +243,24 @@ public partial class MainWindow : Window
         BusinessImage.Source = new Bitmap(new MemoryStream(bytes2));
 
     }
+
+    // barre de titre XP : déplacer, réduire, agrandir, fermer
+    private void OnPointerPressed_Titre(object? sender, PointerPressedEventArgs e)
+    {
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            BeginMoveDrag(e);
+    }
+
+    private void OnDoubleTapped_Titre(object? sender, TappedEventArgs e) => BasculerTaille();
+
+    private void OnClick_Reduire(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
+    private void OnClick_Agrandir(object? sender, RoutedEventArgs e) => BasculerTaille();
+
+    private void OnClick_Fermer(object? sender, RoutedEventArgs e) => Close();
+
+    private void BasculerTaille() =>
+        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
 
     private void OnClick_ExportButton(object? sender, RoutedEventArgs e)
     {

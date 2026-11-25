@@ -1,0 +1,214 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Thème Windows XP "Luna" bleu -->
+
+    <Styles.Resources>
+        <!-- champs de texte (remplace les couleurs Fluent) -->
+        <SolidColorBrush x:Key="TextControlBackground" Color="White" />
+        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="White" />
+        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="White" />
+        <SolidColorBrush x:Key="TextControlForeground" Color="Black" />
+        <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="Black" />
+        <SolidColorBrush x:Key="TextControlForegroundFocused" Color="Black" />
+        <SolidColorBrush x:Key="TextControlBorderBrush" Color="#7F9DB9" />
+        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#7F9DB9" />
+        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#316AC5" />
+        <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="#316AC5" />
+        <Thickness x:Key="TextControlBorderThemeThickness">1</Thickness>
+        <Thickness x:Key="TextControlBorderThemeThicknessFocused">1</Thickness>
+    </Styles.Resources>
+
+    <Style Selector="Window">
+        <Setter Property="FontFamily" Value="Tahoma, Verdana, Arial" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="#ECE9D8" />
+    </Style>
+
+    <!-- barre de titre -->
+    <Style Selector="Border.barreTitre">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="CornerRadius" Value="7,7,0,0" />
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Offset="0" Color="#0058E6" />
+                <GradientStop Offset="0.08" Color="#3A93FF" />
+                <GradientStop Offset="0.22" Color="#0058EE" />
+                <GradientStop Offset="0.55" Color="#0054E3" />
+                <GradientStop Offset="0.86" Color="#0066FF" />
+                <GradientStop Offset="1" Color="#003DB3" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+
+    <!-- boutons réduire / agrandir / fermer -->
+    <Style Selector="Button.titre">
+        <Setter Property="Width" Value="22" />
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Cursor" Value="Arrow" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="fond" CornerRadius="3" BorderThickness="1" BorderBrush="White"
+                        Background="{TemplateBinding Background}">
+                    <ContentPresenter x:Name="contenu" Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="#7AA7FF" />
+                <GradientStop Offset="0.35" Color="#2F6AE8" />
+                <GradientStop Offset="1" Color="#1D47B0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="Button.titre.fermer">
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="#F0A080" />
+                <GradientStop Offset="0.35" Color="#E0583A" />
+                <GradientStop Offset="1" Color="#B02A10" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="Button.titre:pointerover /template/ Border#fond">
+        <Setter Property="Opacity" Value="0.85" />
+    </Style>
+    <Style Selector="Button.titre:pressed /template/ Border#fond">
+        <Setter Property="Opacity" Value="0.65" />
+    </Style>
+
+    <!-- boutons normaux -->
+    <Style Selector="Button.xp">
+        <Setter Property="MinWidth" Value="110" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Padding" Value="12,0" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="fond" CornerRadius="3" BorderThickness="1" BorderBrush="#003C74">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Offset="0" Color="White" />
+                            <GradientStop Offset="0.85" Color="#ECEBE5" />
+                            <GradientStop Offset="1" Color="#D6D0C5" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border x:Name="lueur" CornerRadius="2" BorderThickness="2" BorderBrush="Transparent">
+                        <ContentPresenter x:Name="contenu" Content="{TemplateBinding Content}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <!-- survol : lueur orange comme XP -->
+    <Style Selector="Button.xp:pointerover /template/ Border#lueur">
+        <Setter Property="BorderBrush" Value="#F8B636" />
+    </Style>
+    <Style Selector="Button.xp:focus-visible /template/ Border#lueur">
+        <Setter Property="BorderBrush" Value="#98B9EB" />
+    </Style>
+    <Style Selector="Button.xp:pressed /template/ Border#fond">
+        <Setter Property="Background" Value="#E2E1DA" />
+    </Style>
+    <Style Selector="Button.xp:pressed /template/ Border#lueur">
+        <Setter Property="BorderBrush" Value="#D1CCC1" />
+    </Style>
+    <Style Selector="Button.xp:disabled /template/ Border#fond">
+        <Setter Property="BorderBrush" Value="#C9C7BA" />
+    </Style>
+    <Style Selector="Button.xp:disabled">
+        <Setter Property="Foreground" Value="#A1A192" />
+    </Style>
+
+    <!-- champs de texte -->
+    <Style Selector="TextBox">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- onglets -->
+    <Style Selector="TabControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel>
+                    <ItemsPresenter x:Name="PART_ItemsPresenter" DockPanel.Dock="Top"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}" ZIndex="1" />
+                    <Border BorderBrush="#919B9C" BorderThickness="1" Background="#F7F6F1"
+                            Margin="0,-1,0,0">
+                        <ContentPresenter x:Name="PART_SelectedContentHost"
+                                          Content="{TemplateBinding SelectedContent}"
+                                          ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                    </Border>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="TabItem">
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="fond" CornerRadius="3,3,0,0" BorderThickness="1" BorderBrush="#919B9C">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Offset="0" Color="White" />
+                            <GradientStop Offset="1" Color="#E6E5DC" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <DockPanel>
+                        <Border x:Name="liseré" DockPanel.Dock="Top" Height="3" CornerRadius="2,2,0,0" />
+                        <ContentPresenter x:Name="contenu" Content="{TemplateBinding Header}"
+                                          Margin="12,1,12,4" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="TabItem:pointerover /template/ Border#liseré">
+        <Setter Property="Background" Value="#FFC73C" />
+    </Style>
+    <Style Selector="TabItem:selected">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+    <Style Selector="TabItem:selected /template/ Border#fond">
+        <Setter Property="Background" Value="#F7F6F1" />
+        <Setter Property="BorderThickness" Value="1,1,1,0" />
+        <Setter Property="Padding" Value="0,0,0,3" />
+    </Style>
+    <Style Selector="TabItem:selected /template/ Border#liseré">
+        <Setter Property="Background" Value="#E68B2C" />
+    </Style>
+
+    <Style Selector="TabItem:pointerover, TabItem:selected:pointerover">
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <!-- cadre avec titre (GroupBox) -->
+    <Style Selector="HeaderedContentControl.groupe">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border Margin="0,8,0,0" BorderThickness="1" BorderBrush="#D0D0BF" CornerRadius="4"
+                            Padding="10,12,10,10">
+                        <ContentPresenter x:Name="contenu" Content="{TemplateBinding Content}" />
+                    </Border>
+                    <Border Background="#F7F6F1" Padding="3,0" Margin="8,0,0,0"
+                            HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <TextBlock Text="{TemplateBinding Header}" Foreground="#0046D5" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
