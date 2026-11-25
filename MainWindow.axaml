@@ -39,7 +39,9 @@
         </Style>
     </Window.Styles>
 
-    <Grid Margin="16">
+    <TabControl Margin="8">
+    <TabItem Header="Boutique">
+    <Grid Margin="8">
     <StackPanel Spacing="6" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Image x:Name="BusinessImage" Width="650" Height="250"
                Stretch="Fill" HorizontalAlignment="Left" />
@@ -88,5 +90,39 @@
 
     </StackPanel>
 </Grid>
+    </TabItem>
+
+    <TabItem Header="Horaires">
+        <StackPanel Margin="8" Spacing="6" Width="300" HorizontalAlignment="Left">
+            <TextBlock Text="Horaires (tous les jours)" FontWeight="Bold" Foreground="#000080" />
+
+            <TextBlock Text="Ouverture" Foreground="Black" />
+            <TextBox x:Name="OuvertureBox" />
+            <TextBlock Text="Début de la pause" Foreground="Black" />
+            <TextBox x:Name="PauseDebutBox" />
+            <TextBlock Text="Fin de la pause" Foreground="Black" />
+            <TextBox x:Name="PauseFinBox" />
+            <TextBlock Text="Fermeture" Foreground="Black" />
+            <TextBox x:Name="FermetureBox" />
+
+            <Button Content="Enregistrer" Click="OnClick_SaveHoraires" />
+            <TextBlock x:Name="HorairesStatus" Foreground="Black" TextWrapping="Wrap" />
+        </StackPanel>
+    </TabItem>
+
+    <TabItem Header="Topics">
+        <StackPanel Margin="8" Spacing="6" Width="300" HorizontalAlignment="Left">
+            <TextBlock Text="Topics MQTT" FontWeight="Bold" Foreground="#000080" />
+
+            <TextBlock Text="Topic de l'heure" Foreground="Black" />
+            <TextBox x:Name="TopicHeureBox" />
+            <TextBlock Text="Topic des logs" Foreground="Black" />
+            <TextBox x:Name="TopicLogBox" />
+
+            <Button x:Name="TopicsButton" Content="Enregistrer" Click="OnClick_SaveTopics" />
+            <TextBlock x:Name="TopicsStatus" Foreground="Black" TextWrapping="Wrap" />
+        </StackPanel>
+    </TabItem>
+    </TabControl>
 
 </Window>

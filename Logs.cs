@@ -5,8 +5,6 @@ namespace Backoffice;
 
 public static class Logs
 {
-    public const string Topic = "umddcmid3b/log";
-
     private static readonly object Verrou = new();
 
     // 2026-11-23T10:14:02+01:00 [info] COM-0000 (umddcmid3b/log) message
@@ -14,7 +12,7 @@ public static class Logs
     {
         string date = DateTimeOffset.FromUnixTimeSeconds(unixTimeStamp)
             .ToOffset(Time.Fuseau).ToString("yyyy-MM-dd'T'HH:mm:sszzz");
-        return $"{date} [{niveau}] {commerceId} ({Topic}) {message}";
+        return $"{date} [{niveau}] {commerceId} ({Topics.Log}) {message}";
     }
 
     // Ajoute la ligne dans un fichier du dossier Data

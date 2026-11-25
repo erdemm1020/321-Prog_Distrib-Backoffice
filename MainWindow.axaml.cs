@@ -16,12 +16,16 @@ public partial class MainWindow : Window
     Product special;
     MqttService? mqtt;
     bool? dernierOuvert;
+    Time? dernierTemps;
     readonly TextBlock[] dayLabels = new TextBlock[7];
 
     public MainWindow()
     {
         InitializeComponent();
+        Horaires.Charger();
+        Topics.Charger();
         CreerHoraires();
+        RemplirPanneaux();
 
         // special = new Product(
         //     "PROD-0000",
@@ -55,7 +59,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            mqtt = new MqttService("mqtt.blue.section-inf.ch", 1883, "umddcmid3b/timebackup");
+            mqtt = new MqttService("mqtt.blue.section-inf.ch", 1883, Topics.Heure);
 
             mqtt.TimeReceived += time =>
             {
@@ -87,15 +91,94 @@ public partial class MainWindow : Window
         {
             dayLabels[i] = new TextBlock
             {
-                Text = $"{Horaires.Jours[i]} : {Horaires.Texte}",
                 Foreground = Brushes.Black
             };
             ScheduleList.Children.Add(dayLabels[i]);
         }
+        AfficherHoraires();
+    }
+
+    private void AfficherHoraires()
+    {
+        for (int i = 0; i < dayLabels.Length; i++)
+            dayLabels[i].Text = $"{Horaires.Jours[i]} : {Horaires.Texte}";
+    }
+
+    private void RemplirPanneaux()
+    {
+        OuvertureBox.Text = Horaires.Ecrire(Horaires.Ouverture);
+        PauseDebutBox.Text = Horaires.Ecrire(Horaires.PauseDebut);
+        PauseFinBox.Text = Horaires.Ecrire(Horaires.PauseFin);
+        FermetureBox.Text = Horaires.Ecrire(Horaires.Fermeture);
+
+        TopicHeureBox.Text = Topics.Heure;
+        TopicLogBox.Text = Topics.Log;
+    }
+
+    private void OnClick_SaveHoraires(object? sender, RoutedEventArgs e)
+    {
+        if (!Horaires.Modifier(OuvertureBox.Text, PauseDebutBox.Text, PauseFinBox.Text, FermetureBox.Text))
+        {
+            HorairesStatus.Text = "Erreur : format 6:00 et heures dans l'ordre.";
+            return;
+        }
+
+        try
+        {
+            Horaires.Enregistrer();
+            HorairesStatus.Text = "Horaires enregistrés.";
+        }
+        catch (Exception ex)
+        {
+            HorairesStatus.Text = $"Pas enregistré : {ex.Message}";
+        }
+
+        RemplirPanneaux();
+        AfficherHoraires();
+
+        // changer les horaires n'envoie rien : on repart sans état précédent
+        dernierOuvert = null;
+        AfficherOuverture(dernierTemps);
+    }
+
+    private async void OnClick_SaveTopics(object? sender, RoutedEventArgs e)
+    {
+        if (!Topics.Modifier(TopicHeureBox.Text, TopicLogBox.Text))
+        {
+            TopicsStatus.Text = "Erreur : deux topics différents, non vides, sans + ni #.";
+            return;
+        }
+
+        try
+        {
+            Topics.Enregistrer();
+            TopicsStatus.Text = "Topics enregistrés.";
+        }
+        catch (Exception ex)
+        {
+            TopicsStatus.Text = $"Pas enregistré : {ex.Message}";
+        }
+
+        RemplirPanneaux();
+
+        // reconnexion pour écouter les nouveaux topics, sans rien envoyer
+        TopicsButton.IsEnabled = false;
+        try
+        {
+            if (mqtt != null) await mqtt.DisposeAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"MQTT erreur : {ex.Message}");
+        }
+        dernierOuvert = null;
+        await InitMqttAsync();
+        TopicsButton.IsEnabled = true;
     }
 
     private void AfficherOuverture(Time? time)
     {
+        dernierTemps = time;
         int today = time == null ? -1 : Horaires.IndexJour(time.LocalTime);
         for (int i = 0; i < dayLabels.Length; i++)
         {
@@ -127,7 +210,7 @@ public partial class MainWindow : Window
         bool envoye = false;
         try
         {
-            if (mqtt != null) envoye = await mqtt.PublishAsync(Logs.Topic, ligne);
+            if (mqtt != null) envoye = await mqtt.PublishAsync(Topics.Log, ligne);
         }
         catch (Exception ex)
         {

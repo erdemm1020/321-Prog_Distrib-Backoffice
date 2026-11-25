@@ -34,8 +34,8 @@ public class MqttService : IAsyncDisposable
         Console.WriteLine($"[MQTT] Connecté à {_host}:{_port}");
 
         // logs d'abord, pour ne rien rater
-        await _client.SubscribeAsync(Logs.Topic);
-        Console.WriteLine($"[MQTT] Abonné au topic {Logs.Topic}");
+        await _client.SubscribeAsync(Topics.Log);
+        Console.WriteLine($"[MQTT] Abonné au topic {Topics.Log}");
 
         await _client.SubscribeAsync(_topic);
         Console.WriteLine($"[MQTT] Abonné au topic {_topic}");
@@ -47,7 +47,7 @@ public class MqttService : IAsyncDisposable
         Console.WriteLine($"[MQTT] Reçu sur {e.ApplicationMessage.Topic} : {json}");
 
         // un log n'est pas une heure : on l'enregistre et c'est tout
-        if (e.ApplicationMessage.Topic == Logs.Topic)
+        if (e.ApplicationMessage.Topic == Topics.Log)
         {
             Logs.Save(json, "recus.log");
             return Task.CompletedTask;
